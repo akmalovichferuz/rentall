@@ -38,10 +38,14 @@ app.listen(PORT, () => {
     console.log(`Server http://localhost:${PORT} portida ishga tushdi.`);
 });
 
-// Telegram botni ishga tushirish (xatoliklarni ushlash bilan)
+// ====================================================
+// BOTNI ISHGA TUSHIRISH (ENG BARQAROR VARIANT)
+// ====================================================
 const bot = require('./src/bot/bot');
-bot.launch()
-    .then(() => console.log('Telegram Bot ishga tushdi. 🚀'))
+
+// dropPendingUpdates: true -> bot yoqilganda eski, tiqilib qolgan xabarlarni o'chiradi va qotib qolishdan asraydi
+bot.launch({ dropPendingUpdates: true })
+    .then(() => console.log('Telegram Bot ishga tushdi va eski xabarlar tozalandi. 🚀'))
     .catch((err) => console.error('Botni ishga tushirishda xatolik:', err));
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
