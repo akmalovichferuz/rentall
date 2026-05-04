@@ -1,0 +1,14 @@
+# Dependencies (Modullar)
+node_modules/
+
+# Environment variables (Maxfiy muhit o'zgaruvchilari)
+.env
+
+# Log fayllar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS tomonidan yaratiladigan tizim fayllari (Mac/Windows)
+.DS_Store
+Thumbs.db
