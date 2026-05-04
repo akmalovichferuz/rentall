@@ -7,13 +7,6 @@ require('dotenv').config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// ====================================================
-// GLOBAL XATO USHLAGICH (Bot qulab tushishidan asraydi)
-// ====================================================
-bot.catch((err, ctx) => {
-    console.error(`Botda xatolik yuz berdi (${ctx.updateType}):`, err);
-});
-
 bot.use(session());
 bot.use(userMiddleware);
 
@@ -28,6 +21,7 @@ const getDynamicSetting = async (key, defaultValue) => {
     }
 };
 
+// XATO TO'G'IRLANDI: Keraksiz URL qidiruvchi qatorlar butunlay olib tashlandi
 const getMainMenu = (telegramId) => {
     const isAdmin = telegramId === adminId;
     
