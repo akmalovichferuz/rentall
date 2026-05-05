@@ -1,5 +1,4 @@
 const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
 
 const options = {
     definition: {
@@ -11,19 +10,21 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:3000',
-                description: 'Lokal server'
+                // ASOSIY: Railway production manzili (API ishlashi uchun)
+                url: 'https://rentall-production.up.railway.app',
+                description: 'Railway Server (Production)'
             },
+            {
+                // QO'SHIMCHA: Lokal kompyuteringizda ishlatganingizda ham ishlashi uchun
+                url: 'http://localhost:3000',
+                description: 'Lokal Server (Development)'
+            }
         ],
     },
-    apis: ['./src/routes/*.js'], // Barcha route fayllarni o'qiydi
+    apis: ['./src/routes/*.js', './src/social/*.js'], // Barcha marshrutlarni o'qiydi (Social ni ham qo'shdim)
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-const setupSwagger = (app) => {
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    console.log('Swagger hujjatlari ishga tushdi: http://localhost:3000/api-docs');
-};
-
-module.exports = setupSwagger;
+// To'g'ri eksport qilish: server.js buni oson qabul qiladi
+module.exports = swaggerSpec;
