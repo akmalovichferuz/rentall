@@ -4,20 +4,27 @@ const dotenv = require('dotenv');
 const path = require('path');
 const connectDB = require('./src/config/db');
 
+// ==========================================
+// SWAGGER UCHUN KUTUBXONALAR
+// ==========================================
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./src/config/swagger'); // Sizning swagger faylingiz
+
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// Xavfsizlik va formatlash sozlamalari
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ==========================================
-// STATIC FAYLLAR (admin.html, index.html) SHU YERDAN OCHILADI
-// ==========================================
 app.use(express.static(path.join(__dirname, 'public')));
+
+// ==========================================
+// API HUJJATLARI (SWAGGER) MARSHRUTI
+// ==========================================
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // API Marshrutlari
 const itemRoutes = require('./src/routes/itemRoutes');
@@ -38,10 +45,10 @@ app.listen(PORT, () => {
     console.log(`Server http://localhost:${PORT} portida ishga tushdi.`);
 });
 
-// Telegram botni ishga tushirish (xatoliklarni ushlash bilan)
+// Botni barqaror ishga tushirish
 const bot = require('./src/bot/bot');
-bot.launch()
-    .then(() => console.log('Telegram Bot ishga tushdi. 🚀'))
+bot.launch({ dropPendingUpdates: true })
+    .then(() => console.log('Telegram Bot ishga tushdi va eski xabarlar tozalandi. 🚀'))
     .catch((err) => console.error('Botni ishga tushirishda xatolik:', err));
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
